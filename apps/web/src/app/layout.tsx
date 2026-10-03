@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 
+import { THEME_INIT_SCRIPT } from "@/components/theme-toggle";
+
 import "./globals.css";
 
 const inter = Inter({
@@ -36,8 +38,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        {/* Stamps the stored theme onto <html> before first paint, so a dark-mode
+            user never sees a white flash. Must run blocking, ahead of the body. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body>{children}</body>
     </html>
   );

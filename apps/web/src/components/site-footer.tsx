@@ -2,42 +2,41 @@ import Link from "next/link";
 
 const COLUMNS = [
   {
-    heading: "Components",
+    heading: "Library",
     links: [
-      { label: "Browse all", href: "/components" },
-      { label: "Loaders", href: "/components?collection=loaders" },
-      { label: "WebGL", href: "/components?collection=webgl" },
-      { label: "Text", href: "/components?collection=text" },
-      { label: "Motion", href: "/components?collection=motion" },
+      { label: "Components", href: "/components" },
+      { label: "Blocks", href: "/blocks" },
+      { label: "Docs", href: "/docs" },
     ],
   },
   {
-    heading: "Docs",
+    heading: "Categories",
     links: [
-      { label: "Getting started", href: "/docs" },
-      { label: "Installation", href: "/docs/installation" },
-      { label: "Theming", href: "/docs/theming" },
-      { label: "CLI", href: "/docs/cli" },
+      { label: "3D & WebGL", href: "/components" },
+      { label: "Text animations", href: "/components" },
+      { label: "Loaders", href: "/components" },
+      { label: "SVG & drawing", href: "/components" },
     ],
   },
   {
     heading: "Project",
     links: [
-      { label: "GitHub", href: "https://github.com/devarshlokwani/craftly" },
-      { label: "Changelog", href: "/changelog" },
-      { label: "Contributing", href: "/docs/contributing" },
-      { label: "License", href: "/license" },
+      { label: "GitHub", href: "https://github.com/devarshlokwani/Craftly" },
+      {
+        label: "Issues",
+        href: "https://github.com/devarshlokwani/Craftly/issues",
+      },
     ],
   },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-32 overflow-hidden border-t border-line">
-      <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-[1.4fr_repeat(3,1fr)]">
+    <footer className="relative z-10 mt-16 overflow-hidden border-t border-line bg-bg-raised">
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-[1.5fr_repeat(3,1fr)]">
         <div>
-          <p className="font-display text-lg font-bold">Craftly</p>
-          <p className="mt-3 max-w-xs text-[13.5px] leading-relaxed text-fg-muted">
+          <p className="font-display text-[15px] font-bold">Craftly</p>
+          <p className="mt-2.5 max-w-xs text-[12.5px] leading-relaxed text-fg-muted">
             Animated React components and visual effects, built from scratch and
             given away as source you own.
           </p>
@@ -45,13 +44,13 @@ export function SiteFooter() {
 
         {COLUMNS.map((column) => (
           <div key={column.heading}>
-            <p className="text-[13px] font-semibold">{column.heading}</p>
-            <ul className="mt-4 space-y-2.5">
+            <p className="text-[12.5px] font-semibold">{column.heading}</p>
+            <ul className="mt-3.5 space-y-2">
               {column.links.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-[13px] text-fg-muted transition-colors hover:text-fg"
+                    className="link-wipe text-[12.5px] text-fg-muted transition-colors hover:text-fg"
                   >
                     {link.label}
                   </Link>
@@ -66,7 +65,7 @@ export function SiteFooter() {
           footer's overflow. Decorative only, so it is hidden from the a11y tree. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none select-none px-5 text-center font-display text-[18vw] font-bold leading-[0.78] tracking-tighter text-fg/[0.035]"
+        className="pointer-events-none relative z-10 px-5 pb-6 text-center font-display text-[12vw] leading-[0.95] font-bold tracking-tighter text-fg/[0.05] select-none"
       >
         craftly
       </div>

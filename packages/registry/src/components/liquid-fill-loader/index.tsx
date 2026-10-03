@@ -65,6 +65,15 @@ export interface LiquidFillLoaderProps {
   overlay?: boolean;
   /** Called once the exit fade finishes — unmount the loader here. */
   onDone?: () => void;
+  /**
+   * Play continuously instead of once. Intended for showing the effect off; a
+   * real intro should stay one-shot and use `onDone`. Repeating keeps a single
+   * mounted instance rather than remounting, so there is no blank frame between
+   * passes, and `onDone` is never called.
+   */
+  repeat?: boolean;
+  /** Seconds the faded-out state is held before a repeating pass restarts. */
+  repeatDelay?: number;
   className?: string;
 }
 
@@ -91,6 +100,8 @@ export function LiquidFillLoader({
   labelColor,
   overlay = true,
   onDone,
+  repeat = false,
+  repeatDelay = 0.35,
   className,
 }: LiquidFillLoaderProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -159,7 +170,29 @@ export function LiquidFillLoader({
         });
 
         const settleAt = fillDuration + 0.05;
-        const tl = gsap.timeline({ onComplete: finish });
+        const tl = gsap.timeline({
+          onComplete: repeat ? undefined : finish,
+          repeat: repeat ? -1 : 0,
+          repeatDelay: repeat ? repeatDelay : 0,
+        });
+
+        // Reset everything the previous pass left behind. Without this a
+        // repeating loop restarts from a faded-out overlay littered with spent
+        // droplets, which reads as the mark vanishing for a beat.
+        tl.set(root, { opacity: 1 }, 0);
+        // The settle tweens animate *to* zero rotation, so a second pass has
+        // nothing left to move unless the tilt is wound back first. Same for the
+        // label, which otherwise stays visible from the previous cycle.
+        tl.set(q("[data-mark]"), { rotation: tilt }, 0);
+        tl.set(rotGroups, { rotation: -tilt, svgOrigin: "32 32" }, 0);
+        tl.set(q("[data-label]"), { opacity: 0 }, 0);
+        tl.call(
+          () => {
+            root.querySelectorAll("[data-drop]").forEach((el) => el.remove());
+          },
+          undefined,
+          0,
+        );
 
         tl.fromTo(
           liquidGroups,
@@ -234,11 +267,45 @@ export function LiquidFillLoader({
           );
         }
 
-        tl.to(
-          root,
-          { opacity: 0, duration: 0.55, ease: "power1.inOut" },
-          settleAt + 1.05,
-        );
+        const endAt = settleAt + 1.05;
+
+        if (repeat) {
+          // Wind the whole thing back out in view rather than fading it away:
+          // the liquid drains, the mark tips back to its resting angle and the
+          // label clears, which hands straight over to the next fill. Fading
+          // out and remounting is what made the mark vanish for a beat.
+          tl.to(
+            liquidGroups,
+            { y: 70, duration: 0.75, ease: "power1.in" },
+            endAt,
+          );
+          tl.to(
+            q("[data-label]"),
+            { opacity: 0, duration: 0.4, ease: "none" },
+            endAt,
+          );
+          tl.to(
+            q("[data-mark]"),
+            { rotation: tilt, duration: 0.6, ease: "power2.inOut" },
+            endAt,
+          );
+          tl.to(
+            rotGroups,
+            {
+              rotation: -tilt,
+              duration: 0.6,
+              ease: "power2.inOut",
+              svgOrigin: "32 32",
+            },
+            endAt,
+          );
+        } else {
+          tl.to(
+            root,
+            { opacity: 0, duration: 0.55, ease: "power1.inOut" },
+            endAt,
+          );
+        }
       }, root);
 
       cleanup = () => ctx.revert();
@@ -248,7 +315,7 @@ export function LiquidFillLoader({
       cancelled = true;
       cleanup?.();
     };
-  }, [reduced, fillDuration, drops, liquidColor]);
+  }, [reduced, fillDuration, drops, liquidColor, repeat, repeatDelay, tilt]);
 
   const useDefaultShape = !shapePath;
   const path = shapePath ?? DEFAULT_SHAPE;
@@ -286,7 +353,13 @@ export function LiquidFillLoader({
               <defs>
                 <clipPath id={shapeClip}>
                   {useDefaultShape ? (
-                    <rect x="2" y="2" width="60" height="60" rx={cornerRadius} />
+                    <rect
+                      x="2"
+                      y="2"
+                      width="60"
+                      height="60"
+                      rx={cornerRadius}
+                    />
                   ) : (
                     <path d={path} />
                   )}

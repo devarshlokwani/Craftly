@@ -10,12 +10,17 @@
     "start": "pnpm --filter @craftly/web start",
     "registry:build": "pnpm --filter @craftly/registry build",
     "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck"
+    "typecheck": "pnpm -r typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,css,json,md,mjs,yaml,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,css,json,md,mjs,yaml,yml}\"",
+    "verify": "pnpm format:check && pnpm typecheck && pnpm build"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "prettier": "^3.9.9",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "^5.9.3"
   }
 }

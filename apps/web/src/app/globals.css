@@ -9,31 +9,174 @@
 @source "../../../../packages/registry/src";
 
 /*
-  Craftly's design tokens. Dark is the product's native mode — the components
-  are effects, and effects read best on near-black — but every colour is defined
-  as a token so a light theme can be layered on later without touching markup.
+  Palette: a jade/acid-lime duo on a ground that is tinted rather than grey.
+  The dark ground carries a green cast and the light one is bone rather than
+  white, which is what stops the whole thing reading as default-dark-mode.
 
-  The accent is carried over from the portfolio these components came out of,
-  deliberately: it keeps the Foundr / Craftly family visually related, and it
-  sets the library apart from the pure-red and neutral-grey of the obvious
-  comparisons.
+  Both themes are designed, not inverted. The light theme's jade is pushed much
+  deeper — the value that glows against near-black goes chalky on bone — while
+  the lime stays bright in both, because it is only ever used as a highlight
+  and a gradient partner, never as a text or button colour.
 */
-@theme {
-  --color-ink: #08080a;
-  --color-ink-raised: #0f0f12;
-  --color-surface: #141418;
-  --color-surface-hover: #1a1a20;
-  --color-line: #22222a;
-  --color-line-strong: #32323d;
+:root {
+  --bg: #f7f7f2;
+  --bg-raised: #fffffc;
+  --surface: #f0f0e8;
+  --surface-hover: #e8e8de;
+  --line: #e0e0d4;
+  --line-strong: #c9c9ba;
 
-  --color-fg: #f4f3ef;
-  --color-fg-muted: #a3a1ab;
-  --color-fg-subtle: #7c7a85;
+  --fg: #12150f;
+  --fg-muted: #51574b;
+  --fg-subtle: #767c6e;
 
-  --color-accent: #ff5a3c;
-  --color-accent-hover: #ff7257;
-  --color-accent-fg: #08080a;
-  --color-accent-soft: #ff5a3c26;
+  --accent: #00794d;
+  --accent-hover: #00653f;
+  --accent-fg: #ffffff;
+  --accent-soft: #00794d1f;
+
+  --accent-2: #5d8c00;
+  --glow: #00794d24;
+
+  /* The cursor light. Light mode needs it far weaker — a bright wash on a bone
+     ground turns to milk, where on near-black it reads as a lamp. */
+  --glow-core: #00794d14;
+  --glow-mid: #5d8c000a;
+
+  /* The dot field. `--dot` is the resting grid; `--dot-lit` is the same grid
+     inside the cursor light. On bone these have to be ink rather than white,
+     or the field disappears entirely. */
+  --dot: #12151905;
+  --dot-lit: #00794d1f;
+  --edge: #00794d;
+  /* The stroke's hot centre. The line is lit from within by this rather
+     than by a shadow spilling outside it. */
+  --edge-hot: #35c98d;
+
+  /* Gradients. Declared once here so cards, buttons and rings all bend the same
+     way and the page reads as one lit surface rather than many. */
+  --grad-accent: linear-gradient(135deg, #00794d, #3f7f12);
+  --grad-ring: linear-gradient(
+    135deg,
+    #00794d99,
+    #5d8c0066 45%,
+    transparent 80%
+  );
+  --grad-stage: radial-gradient(
+    120% 90% at 50% 0%,
+    #00794d0f 0%,
+    transparent 60%
+  );
+  --grad-sheen: linear-gradient(180deg, #ffffffb3, #ffffff00 55%);
+}
+
+:root[data-theme="dark"] {
+  --bg: #080b09;
+  --bg-raised: #0d110f;
+  --surface: #121714;
+  --surface-hover: #18201b;
+  --line: #1f2822;
+  --line-strong: #324037;
+
+  --fg: #f1f4ef;
+  --fg-muted: #9aa69d;
+  --fg-subtle: #6d7a71;
+
+  --accent: #2fe08f;
+  --accent-hover: #55e9a5;
+  --accent-fg: #06120c;
+  --accent-soft: #2fe08f24;
+
+  --accent-2: #c2f24a;
+  --glow: #2fe08f2e;
+
+  --glow-core: #2fe08f24;
+  --glow-mid: #c2f24a0d;
+
+  --dot: #ffffff07;
+  --dot-lit: #7fe9b42e;
+  --edge: #2fe08f;
+  --edge-hot: #d6fff0;
+
+  --grad-accent: linear-gradient(135deg, #2fe08f, #9fe85c);
+  --grad-ring: linear-gradient(
+    135deg,
+    #2fe08fcc,
+    #c2f24a80 45%,
+    transparent 80%
+  );
+  --grad-stage: radial-gradient(
+    120% 90% at 50% 0%,
+    #2fe08f14 0%,
+    transparent 60%
+  );
+  --grad-sheen: linear-gradient(180deg, #ffffff14, #ffffff00 55%);
+}
+
+/* Honour the OS preference until the user picks a side explicitly, at which
+   point the data-theme attribute above wins. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #080b09;
+    --bg-raised: #0d110f;
+    --surface: #121714;
+    --surface-hover: #18201b;
+    --line: #1f2822;
+    --line-strong: #324037;
+
+    --fg: #f1f4ef;
+    --fg-muted: #9aa69d;
+    --fg-subtle: #6d7a71;
+
+    --accent: #2fe08f;
+    --accent-hover: #55e9a5;
+    --accent-fg: #06120c;
+    --accent-soft: #2fe08f24;
+
+    --accent-2: #c2f24a;
+    --glow: #2fe08f2e;
+
+    --glow-core: #2fe08f24;
+    --glow-mid: #c2f24a0d;
+
+    --dot: #ffffff07;
+    --dot-lit: #7fe9b42e;
+    --edge: #2fe08f;
+    --edge-hot: #d6fff0;
+
+    --grad-accent: linear-gradient(135deg, #2fe08f, #9fe85c);
+    --grad-ring: linear-gradient(
+      135deg,
+      #2fe08fcc,
+      #c2f24a80 45%,
+      transparent 80%
+    );
+    --grad-stage: radial-gradient(
+      120% 90% at 50% 0%,
+      #2fe08f14 0%,
+      transparent 60%
+    );
+    --grad-sheen: linear-gradient(180deg, #ffffff14, #ffffff00 55%);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raised: var(--bg-raised);
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-2: var(--accent-2);
 
   --font-display: var(--font-space-grotesk), system-ui, sans-serif;
   --font-sans: var(--font-inter), system-ui, sans-serif;
@@ -43,16 +186,51 @@
 }
 
 @layer base {
+  :root {
+    /* Width of the hatched band down each edge. The page is inset by this, so
+       it is a layout value as much as a decorative one. Narrow on phones, where
+       giving up 28px either side costs real reading width. */
+    --frame: 14px;
+    /* The sticky nav's height. The cursor field starts below it and the glow is
+       bounded by it, so it has to be a number both CSS and JS agree on. */
+    --nav-h: 56px;
+  }
+
+  @media (min-width: 768px) {
+    :root {
+      --frame: 26px;
+    }
+  }
+
   html {
-    color-scheme: dark;
     scroll-behavior: smooth;
+    /* Without this, overscrolling past the footer rubber-bands the page away
+       from the fixed background and shows bare canvas underneath. */
+    overscroll-behavior-y: none;
+    background-color: var(--bg);
+  }
+
+  :root {
+    color-scheme: light;
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+    }
   }
 
   body {
-    background-color: var(--color-ink);
-    color: var(--color-fg);
+    background-color: var(--bg);
+    color: var(--fg);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    /* Clears the fixed frame. Horizontal only — a top inset would push the
+       sticky nav away from the viewport edge and break it. */
+    padding-inline: var(--frame);
+    overflow-x: hidden;
   }
 
   /* The nav is sticky, so anchored headings need clearance or they land
@@ -62,24 +240,153 @@
   }
 
   ::selection {
-    background-color: var(--color-accent);
-    color: var(--color-accent-fg);
+    background-color: var(--accent);
+    color: var(--accent-fg);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 }
 
 @layer utilities {
-  /* The faint dotted field behind the hero. One utility rather than a
-     component, since several sections reuse it at different opacities. */
-  .bg-dot-field {
-    background-image: radial-gradient(
-      var(--color-line-strong) 1px,
-      transparent 1px
+  /*
+    A hairline that fades out at both ends instead of stopping dead. Used for
+    the rails running down either side of the page — a hard-edged 1px line
+    butting into whitespace looks like a rendering artefact; a fading one
+    reads as deliberate.
+  */
+  .rail-y {
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--line) 12%,
+      var(--line) 88%,
+      transparent
     );
-    background-size: 22px 22px;
+  }
+
+  .rail-x {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--line) 12%,
+      var(--line) 88%,
+      transparent
+    );
+  }
+
+  /*
+    Gradient border via a masked pseudo-element. `border-image` cannot follow a
+    border-radius, and two stacked backgrounds leave the corners mitred, so the
+    ring is painted into the padding box and the fill is punched back out of it.
+  */
+  .gradient-ring {
+    position: relative;
+  }
+  .gradient-ring::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: var(--grad-ring);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  /* The lit panel a demo sits on: a wash of the accent falling from the top
+     edge, so each card looks lit from the same direction as the page. */
+  .stage-glow {
+    background-image: var(--grad-stage);
+  }
+
+  /* Gradient fill for primary actions, with a sheen across the top half so the
+     button reads as a raised surface rather than a flat swatch. */
+  .btn-accent {
+    position: relative;
+    background-image: var(--grad-accent);
+    overflow: hidden;
+  }
+  .btn-accent::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 50% 0;
+    background: var(--grad-sheen);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  /*
+    Accent text, filled with the same gradient the buttons and rings use, so a
+    highlighted phrase belongs to the palette rather than sitting on top of it.
+
+    `background-clip: text` needs a transparent fill to show through. The
+    fallback colour is declared first so that a browser without text clipping
+    renders solid accent rather than invisible text.
+  */
+  .text-gradient {
+    color: var(--accent);
+    background-image: var(--grad-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /* An inline gradient box clips descenders at the baseline; a little
+       bottom padding with a matching negative margin gives them room without
+       moving the text. */
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+  }
+}
+
+@layer utilities {
+  /*
+    A gradient rule that wipes in from the left on hover and leaves to the
+    right when the pointer goes.
+
+    The direction change is the whole point, and it comes from swapping
+    `transform-origin` between the two states rather than from two animations:
+    on hover the line scales up from its left edge, and on the way out the
+    resting rule scales down toward its right edge. One property, two
+    directions, and it reverses correctly if the pointer leaves mid-wipe.
+  */
+  .link-wipe {
+    position: relative;
+  }
+  .link-wipe::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    height: 1.5px;
+    width: 100%;
+    border-radius: 2px;
+    background-image: var(--grad-accent);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .link-wipe:hover::after,
+  .link-wipe:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .link-wipe::after {
+      transition: none;
+    }
   }
 }
