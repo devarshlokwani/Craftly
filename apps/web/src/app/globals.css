@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+/*
+  Tailwind only scans the app it is installed in, so without this the utility
+  classes written inside the registry components never get generated and they
+  render unstyled — which looks like a broken component rather than a missing
+  stylesheet. Any new package holding component source has to be listed here.
+*/
+@source "../../../../packages/registry/src";
+
+/*
+  Craftly's design tokens. Dark is the product's native mode — the components
+  are effects, and effects read best on near-black — but every colour is defined
+  as a token so a light theme can be layered on later without touching markup.
+
+  The accent is carried over from the portfolio these components came out of,
+  deliberately: it keeps the Foundr / Craftly family visually related, and it
+  sets the library apart from the pure-red and neutral-grey of the obvious
+  comparisons.
+*/
+@theme {
+  --color-ink: #08080a;
+  --color-ink-raised: #0f0f12;
+  --color-surface: #141418;
+  --color-surface-hover: #1a1a20;
+  --color-line: #22222a;
+  --color-line-strong: #32323d;
+
+  --color-fg: #f4f3ef;
+  --color-fg-muted: #a3a1ab;
+  --color-fg-subtle: #7c7a85;
+
+  --color-accent: #ff5a3c;
+  --color-accent-hover: #ff7257;
+  --color-accent-fg: #08080a;
+  --color-accent-soft: #ff5a3c26;
+
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-card: 14px;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The nav is sticky, so anchored headings need clearance or they land
+     underneath it. */
+  :target {
+    scroll-margin-top: 6rem;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: var(--color-accent-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer utilities {
+  /* The faint dotted field behind the hero. One utility rather than a
+     component, since several sections reuse it at different opacities. */
+  .bg-dot-field {
+    background-image: radial-gradient(
+      var(--color-line-strong) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+}
