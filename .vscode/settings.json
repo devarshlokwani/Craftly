@@ -1,0 +1,24 @@
+{
+  // Tailwind v4 moves configuration into CSS (@theme, @source, @utility, @apply).
+  // VSCode's built-in CSS language service doesn't know these at-rules and
+  // reports them as "Unknown at rule", which shows up as syntax errors even
+  // though the stylesheet compiles correctly. Silencing that one lint rule is
+  // the standard fix — it does not disable the rest of CSS validation.
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+
+  // Use the workspace TypeScript (5.9) rather than whichever version VSCode
+  // bundles, so the editor and `pnpm typecheck` agree about React 19 types.
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Tailwind IntelliSense inside cn()/clsx() string arguments.
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]"],
+    ["clsx\\(([^)]*)\\)", "[\"'`]([^\"'`]*)[\"'`]"]
+  ]
+}

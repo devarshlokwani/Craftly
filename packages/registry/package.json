@@ -5,7 +5,9 @@
   "description": "Source of truth for every Craftly component. Consumed by the docs site and the shadcn registry builder.",
   "type": "module",
   "exports": {
-    "./*": "./src/*"
+    "./components/*": "./src/components/*/index.tsx",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./lib/*": "./src/lib/*.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
