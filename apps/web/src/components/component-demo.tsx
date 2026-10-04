@@ -2,10 +2,17 @@
 
 import {
   BrainSceneDemo,
+  BrainThreadsDemo,
+  FannedDeckDemo,
+  FlightTrailDemo,
   GearLoaderDemo,
   LiquidFillLoaderDemo,
   ScrambleTextDemo,
+  SketchSceneryDemo,
+  StackedCarouselDemo,
   StrokeWriterDemo,
+  TapedCardDemo,
+  WipeTransitionDemo,
 } from "@/components/demos";
 
 /**
@@ -22,6 +29,20 @@ export function ComponentDemo({ slug }: { slug: string }) {
       return <LiquidFillLoaderDemo />;
     case "brain-scene":
       return <BrainSceneDemo />;
+    case "brain-threads":
+      return <BrainThreadsDemo />;
+    case "flight-trail":
+      return <FlightTrailDemo />;
+    case "taped-card":
+      return <TapedCardDemo />;
+    case "fanned-deck":
+      return <FannedDeckDemo />;
+    case "sketch-scenery":
+      return <SketchSceneryDemo />;
+    case "wipe-transition":
+      return <WipeTransitionDemo />;
+    case "stacked-carousel":
+      return <StackedCarouselDemo />;
     case "gear-loader":
       return <GearLoaderDemo />;
     case "scramble-text":

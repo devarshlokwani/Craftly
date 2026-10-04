@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { ComponentDemo } from "@/components/component-demo";
 import type { ComponentMeta } from "@/lib/components-data";
 import { cn } from "@/lib/cn";
@@ -36,7 +38,23 @@ export function ComponentCard({
           stageClassName,
         )}
       >
-        <ComponentDemo slug={component.slug} />
+        {component.href ? (
+          /* A block owns the viewport, so the card shows a still and sends you
+             to the real thing rather than pretending to run it in 200px. */
+          <Link
+            href={component.href}
+            className="group/preview flex h-full w-full flex-col items-center justify-center gap-2"
+          >
+            <span className="font-mono text-[10px] tracking-[0.2em] text-fg-subtle uppercase">
+              full-screen block
+            </span>
+            <span className="text-[12.5px] font-semibold text-accent transition-transform group-hover/preview:translate-x-0.5">
+              View the block →
+            </span>
+          </Link>
+        ) : (
+          <ComponentDemo slug={component.slug} />
+        )}
       </div>
 
       <div className="p-3.5">

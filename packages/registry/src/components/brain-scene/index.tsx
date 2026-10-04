@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { cn } from "../../lib/cn";
 import { brainLights, buildBrain } from "./brain-mesh";
+import { buildThreads } from "./brain-threads";
 
 export interface BrainSceneProps {
   /** Radians per second the brain turns on its own. */
@@ -12,6 +13,14 @@ export interface BrainSceneProps {
   size?: number;
   /** How far the brain leans toward the pointer. 0 disables the tilt. */
   tiltStrength?: number;
+  /**
+   * Draw the tangle of threads that orbits the brain. They run in over the
+   * first couple of seconds and then drift, which is why they are opt-in: on a
+   * small card they crowd the shape rather than frame it.
+   */
+  threads?: boolean;
+  /** Seed for the thread tangle, so a given value always draws the same one. */
+  threadSeed?: number;
   /** Shown while three.js loads, and permanently if WebGL is unavailable. */
   fallback?: React.ReactNode;
   className?: string;
@@ -35,6 +44,8 @@ export function BrainScene({
   spin = 0.16,
   size = 460,
   tiltStrength = 1,
+  threads = false,
+  threadSeed = 0x6d656d,
   fallback,
   className,
 }: BrainSceneProps) {
@@ -94,6 +105,14 @@ export function BrainScene({
         { dispose: releaseBrain },
       ];
 
+      // The tangle rides the brain's own group, so it turns and tilts with it
+      // rather than floating independently beside it.
+      const tangle = threads ? buildThreads(THREE, threadSeed) : null;
+      if (tangle) {
+        brain.add(tangle.group);
+        spent.push({ dispose: tangle.dispose });
+      }
+
       if (cancelled) {
         for (const item of spent) item.dispose();
         renderer.domElement.remove();
@@ -137,11 +156,20 @@ export function BrainScene({
 
       let frame = 0;
       let last = performance.now();
+      const began = performance.now();
       const draw = (now: number) => {
         frame = requestAnimationFrame(draw);
         const delta = Math.min((now - last) / 1000, 0.1);
         last = now;
         if (!visible) return;
+
+        if (tangle) {
+          const clock = (now - began) / 1000;
+          // Reduced motion gets the finished tangle immediately and no drift,
+          // rather than nothing at all — the threads are the shape, not the
+          // animation.
+          tangle.set(still ? 1 : Math.min(1, clock / 2.2), still ? 0 : clock);
+        }
 
         if (!still) {
           brain.rotation.y += spin * delta;
@@ -184,7 +212,7 @@ export function BrainScene({
       approach.disconnect();
       teardown?.();
     };
-  }, [spin, size, tiltStrength]);
+  }, [spin, size, tiltStrength, threads, threadSeed]);
 
   return (
     <div

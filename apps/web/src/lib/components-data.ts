@@ -30,6 +30,11 @@ export interface ComponentMeta {
   dependencies: string[];
   /** Where the effect was originally built, shown as provenance on the card. */
   origin: string;
+  /**
+   * A page of its own. Blocks that take over the viewport cannot be shown
+   * honestly inside a card, so they link out to a full-width demo instead.
+   */
+  href?: string;
 }
 
 export const COLLECTIONS: Record<Collection, string> = {
@@ -93,6 +98,89 @@ export const COMPONENTS: ComponentMeta[] = [
     featured: true,
     dependencies: [],
     origin: "Built for the portfolio's intro sequence",
+  },
+  {
+    slug: "flight-trail",
+    name: "Flight Trail",
+    description:
+      "A paper plane flies a generated wave route on scroll, inking the dotted trail in behind it.",
+    kind: "component",
+    collection: "motion",
+    featured: true,
+    dependencies: ["gsap"],
+    origin: "Built for the portfolio's experience section",
+  },
+  {
+    slug: "fanned-deck",
+    name: "Fanned Deck",
+    description:
+      "Cards held as a deck rather than laid out as a grid — it spreads from the middle under the pointer, and the card you are over squares up.",
+    kind: "component",
+    collection: "motion",
+    dependencies: [],
+    origin: "Built for Memora's formats section",
+  },
+  {
+    slug: "brain-threads",
+    name: "Brain with Threads",
+    description:
+      "The same generated brain, wrapped in a tangle of threads that draw themselves in and then drift.",
+    kind: "component",
+    collection: "3d",
+    dependencies: ["three"],
+    origin: "Built for Memora's hero",
+  },
+  {
+    slug: "taped-card",
+    name: "Taped Card",
+    description:
+      "Cream paper held down by a strip of washi tape, tilted as though placed by hand. No dependencies.",
+    kind: "component",
+    collection: "drawing",
+    dependencies: [],
+    origin: "Built for the portfolio's flight path",
+  },
+  {
+    slug: "sketch-scenery",
+    name: "Sketch Scenery",
+    description:
+      "A hand-inked countryside generated from a seed — ridges, hills, hamlets and windmills whose sails actually turn.",
+    kind: "component",
+    collection: "drawing",
+    featured: true,
+    dependencies: ["gsap"],
+    origin: "Built for the portfolio's flight path",
+  },
+  {
+    slug: "wipe-transition",
+    name: "Wipe Transition",
+    description:
+      "A skewed panel sweeps across, hides the swap behind itself and keeps going. Router-agnostic.",
+    kind: "component",
+    collection: "motion",
+    dependencies: ["gsap"],
+    origin: "Built for the portfolio's route changes",
+  },
+  {
+    slug: "stacked-carousel",
+    name: "Stacked Carousel",
+    description:
+      "Page a stack of cards: the front one lifts out, turns, and drops in behind the others. Reverses on the way back.",
+    kind: "component",
+    collection: "motion",
+    dependencies: ["gsap"],
+    origin: "Built for Foundr's features section",
+  },
+  {
+    slug: "flight-path",
+    name: "Flight Path",
+    description:
+      "A pinned, scroll-driven journey across paper: the land is drawn, the route inks in behind the plane, and a card rides each checkpoint.",
+    kind: "block",
+    collection: "motion",
+    dependencies: ["gsap"],
+    origin: "Built for the portfolio's experience section",
+    href: "/blocks/flight-path",
   },
   {
     slug: "gear-loader",

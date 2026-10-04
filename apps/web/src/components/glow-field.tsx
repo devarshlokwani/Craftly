@@ -25,6 +25,9 @@ const GRID = 22;
 const SQUASH_RANGE = 34;
 const SQUASH_MAX = 0.62;
 
+/** Thickness of the edge strokes, in px. */
+const STROKE = 2;
+
 /** Distance from an edge at which that edge's marker is fully lit. */
 const EDGE_RANGE = 260;
 
@@ -169,8 +172,11 @@ export function GlowField({
         const offsets = [
           `translate3d(${bx}px, 0, 0)`,
           // The bottom marker rides the floor, which moves as the footer
-          // scrolls in, so it is placed rather than pinned.
-          `translate3d(${bx}px, ${Math.round(floor - box.top)}px, 0)`,
+          // scrolls in, so it is placed rather than pinned. It is lifted by its
+          // own thickness because the floor is the top edge of an opaque
+          // element painted above this field — sitting *on* the line would put
+          // the stroke underneath the footer and hide it completely.
+          `translate3d(${bx}px, ${Math.round(floor - box.top) - STROKE}px, 0)`,
           `translate3d(0, ${by}px, 0)`,
           `translate3d(0, ${by}px, 0)`,
         ];
