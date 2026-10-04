@@ -80,7 +80,7 @@ export function Gallery({
               <ComponentCard
                 key={item.slug}
                 component={item}
-                stageClassName="h-[260px]"
+                stageClassName="min-h-[260px]"
               />
             ))}
           </div>

@@ -8,6 +8,8 @@ import {
   GearLoaderDemo,
   LiquidFillLoaderDemo,
   ScrambleTextDemo,
+  PixelTrailDemo,
+  RecoilCursorDemo,
   SketchSceneryDemo,
   StackedCarouselDemo,
   StrokeWriterDemo,
@@ -43,6 +45,10 @@ export function ComponentDemo({ slug }: { slug: string }) {
       return <WipeTransitionDemo />;
     case "stacked-carousel":
       return <StackedCarouselDemo />;
+    case "pixel-trail":
+      return <PixelTrailDemo />;
+    case "recoil-cursor":
+      return <RecoilCursorDemo />;
     case "gear-loader":
       return <GearLoaderDemo />;
     case "scramble-text":

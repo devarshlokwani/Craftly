@@ -7,6 +7,8 @@ import { FannedDeck } from "@craftly/registry/components/fanned-deck";
 import { FlightTrail } from "@craftly/registry/components/flight-trail";
 import { GearLoader } from "@craftly/registry/components/gear-loader";
 import { LiquidFillLoader } from "@craftly/registry/components/liquid-fill-loader";
+import { PixelTrail } from "@craftly/registry/components/pixel-trail";
+import { RecoilCursor } from "@craftly/registry/components/recoil-cursor";
 import { ScrambleText } from "@craftly/registry/components/scramble-text";
 import { SketchScenery } from "@craftly/registry/components/sketch-scenery";
 import { StackedCarousel } from "@craftly/registry/components/stacked-carousel";
@@ -357,6 +359,37 @@ export function StackedCarouselDemo() {
           ),
         }))}
       />
+    </div>
+  );
+}
+
+/**
+ * The trail and the cursor are both fixed to the viewport, so a card can only
+ * show what they do — it cannot contain them. Each demo says so and the block
+ * page runs them for real.
+ */
+export function PixelTrailDemo() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-[#1e2749]">
+      {/* Contained: a demo tile must not hand the trail the whole page. */}
+      <PixelTrail color="228, 217, 255" contained />
+      <p className="px-6 text-center font-mono text-[10px] tracking-[0.2em] text-[#e4d9ff]/70 uppercase">
+        move inside this tile
+      </p>
+    </div>
+  );
+}
+
+export function RecoilCursorDemo() {
+  return (
+    <div
+      data-hoverable
+      className="absolute inset-0 flex cursor-none items-center justify-center bg-[#1e2749]"
+    >
+      <RecoilCursor contained />
+      <p className="px-6 text-center font-mono text-[10px] tracking-[0.2em] text-[#e4d9ff]/70 uppercase">
+        move here, then hover
+      </p>
     </div>
   );
 }

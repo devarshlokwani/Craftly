@@ -34,7 +34,7 @@ export function ComponentCard({
     >
       <div
         className={cn(
-          "stage-glow relative flex h-[200px] flex-1 items-center justify-center overflow-hidden border-b border-line",
+          "stage-glow relative flex min-h-[200px] flex-1 items-center justify-center overflow-hidden border-b border-line",
           stageClassName,
         )}
       >

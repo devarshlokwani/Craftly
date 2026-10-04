@@ -90,7 +90,7 @@ function Hero() {
             <ComponentCard
               component={featured}
               className="lg:col-span-2"
-              stageClassName="h-[240px]"
+              stageClassName="min-h-[240px]"
             />
           ) : null}
           <div className="grid gap-4">
@@ -98,7 +98,7 @@ function Hero() {
               <ComponentCard
                 key={component.slug}
                 component={component}
-                stageClassName="h-[240px]"
+                stageClassName="min-h-[240px]"
               />
             ))}
           </div>

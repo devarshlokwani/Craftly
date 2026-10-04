@@ -183,6 +183,38 @@ export const COMPONENTS: ComponentMeta[] = [
     href: "/blocks/flight-path",
   },
   {
+    slug: "pixel-trail",
+    name: "Pixel Trail",
+    description:
+      "Grid cells light up behind the pointer and fade — brighter the faster you move, with extra cells on turns. Zero dependencies.",
+    kind: "component",
+    collection: "motion",
+    featured: true,
+    dependencies: [],
+    origin: "Built for the portfolio's grid canvas",
+  },
+  {
+    slug: "recoil-cursor",
+    name: "Recoil Cursor",
+    description:
+      "A square that chases the pointer and pulls *closer* the faster you move, leans into the turn, then squares up into a label over a target.",
+    kind: "component",
+    collection: "motion",
+    dependencies: [],
+    origin: "Built for the portfolio's cursor",
+  },
+  {
+    slug: "pixel-playground",
+    name: "Pixel Playground",
+    description:
+      "The trail and the cursor wired together over a card grid — the arrangement both were built for.",
+    kind: "block",
+    collection: "motion",
+    dependencies: [],
+    origin: "Built for the portfolio's work section",
+    href: "/blocks/pixel-playground",
+  },
+  {
     slug: "gear-loader",
     name: "Gear Loader",
     description:
